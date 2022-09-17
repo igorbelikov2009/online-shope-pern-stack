@@ -58,7 +58,7 @@ Rating.belongsTo(User);
 Basket.hasMany(BasketDevice);
 BasketDevice.belongsTo(Basket);
 
-Device.hasMany(DeviceInfo);
+Device.hasMany(DeviceInfo, { as: "info" }); // info - поле массива характеристик
 DeviceInfo.belongsTo(Device);
 
 Brand.hasMany(Device);
