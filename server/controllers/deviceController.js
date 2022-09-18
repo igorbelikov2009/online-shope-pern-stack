@@ -113,3 +113,4 @@ module.exports = new DeviceController();
 // Через точку будем обращаться к этим функциям, чтобы их вызывать, например DeviceController().check
 
 // экспортируем в userRouter
+// http://localhost:5000/api/device
