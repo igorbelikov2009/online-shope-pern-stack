@@ -8,7 +8,7 @@ const generateJwt = (id, email, role) => {
     expiresIn: "24h",
   });
 };
-
+//============================
 class UserController {
   async registration(req, res, next) {
     const { email, password, role } = req.body; //  из тела запроса получаем email, password и rol
@@ -47,43 +47,29 @@ class UserController {
     return res.json({ token });
   }
 
-  // async login(req, res, next) {
-  //   const { email, password } = req.body;
-  //   // Необходимо проверить, что пользователь с таким email в нашей базе данных существует. По условию ({ where: { email } }) ищем такого пользователя
-  //   const user = await User.findOne({ where: { email } });
-  //   // Если пользователь не найден, то тогда возвращаем ошибку
-  //   if (!user) {
-  //     return next(ApiError.internal("Пользователь с таким именем не найден"));
-  //   }
-  //   // Если такой пользователь существует в базе данных, то необходимо убедиться в том,
-  //   // что пароль, который пользователь написал в форме, совпадает с тем, который лежит в базе данных.
-  //   // Но в базе даных у нас лежит захешированный пароль, поэтому с помощью bcrypt сравниваем эти пароли
-  //   let comparePassword = bcrypt.compareSync(password, user.password); // Первый параметр: пароль, который написал пользователь. Второй мы получаем из базы данных
-  //   if (!comparePassword) {
-  //     // если пароли не совпадают, возвращаем ошибку
-  //     return next(ApiError.internal("Указан неверный пароль"));
-  //   }
-  //   // затем опять генерируем токен и передаём туда все необходимые параметры
-  //   const token = generateJwt(user.id, user.email, user.role);
-  //   return res.json({ token }); // возвращаем на клиент объект токен
-  // }
-
-  // В принципе вся функция check будет сводиться к тому, чтобы сгенерировать новый токен и отправить его обратно на клиент.
-  // Если пользователь постоянно использует свой аккаунт, токен у него будет перезаписываться.
   async login(req, res, next) {
     const { email, password } = req.body;
+    // Необходимо проверить, что пользователь с таким email в нашей базе данных существует. По условию ({ where: { email } }) ищем такого пользователя
     const user = await User.findOne({ where: { email } });
+    // Если пользователь не найден, то тогда возвращаем ошибку
     if (!user) {
       return next(ApiError.internal("Пользователь не найден"));
     }
-    let comparePassword = bcrypt.compareSync(password, user.password);
+    // Если такой пользователь существует в базе данных, то необходимо убедиться в том,
+    // что пароль, который пользователь написал в форме, совпадает с тем, который лежит в базе данных.
+    // Но в базе даных у нас лежит захешированный пароль, поэтому с помощью bcrypt сравниваем эти пароли
+    let comparePassword = bcrypt.compareSync(password, user.password); // Первый параметр: пароль, который написал пользователь. Второй мы получаем из базы данных
     if (!comparePassword) {
+      // если пароли не совпадают, возвращаем ошибку
       return next(ApiError.internal("Указан неверный пароль"));
     }
+    // затем опять генерируем токен и передаём туда все необходимые параметры
     const token = generateJwt(user.id, user.email, user.role);
-    return res.json({ token });
+    return res.json({ token }); // возвращаем на клиент объект токен
   }
 
+  // В принципе вся функция check будет сводиться к тому, чтобы сгенерировать новый токен и отправить его обратно на клиент.
+  // Если пользователь постоянно использует свой аккаунт, токен у него будет перезаписываться.
   async check(req, res, next) {
     const token = generateJwt(req.user.id, req.user.email, req.user.role);
     return res.json({ token });
