@@ -42,7 +42,7 @@ class DeviceController {
         );
       }
 
-      return res.json(devices); // после создания устройства возвращаем информацию о нём обратно на клиент
+      return res.json(device); // после создания устройства возвращаем информацию о нём обратно на клиент
     } catch (e) {
       next(ApiError.badRequest(e.message));
     }
