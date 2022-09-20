@@ -8,5 +8,6 @@ router.post("/", checkRole("ADMIN"), typeController.create); // 2-м парам�
 // 3-м передаём фунцию create
 
 router.get("/", typeController.getAll);
-
+router.delete("/:id", checkRole("ADMIN"), typeController.delete);
+// http://localhost:5000/api/type/7 удаляем в postmane через адресную строку, где id через слеш: /7
 module.exports = router;
