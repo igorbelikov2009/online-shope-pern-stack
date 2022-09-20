@@ -16,6 +16,7 @@ class TypeController {
     return res.json(types);
   }
 
+  // удаляем типы
   async delete(req, res) {
     try {
       // В первую очередь получаем id устройства из параметров.

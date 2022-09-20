@@ -8,6 +8,9 @@ router.post("/", checkRole("ADMIN"), deviceController.create); // 2-м пара�
 // 3-м передаём фунцию create
 
 router.get("/", deviceController.getAll);
+router.get("/search", deviceController.getSearchAllDeviceByName);
 router.get("/:id", deviceController.getOne);
+router.delete("/:id", checkRole("ADMIN"), deviceController.delete);
+router.put("/:id", checkRole("ADMIN"), deviceController.update);
 
 module.exports = router;

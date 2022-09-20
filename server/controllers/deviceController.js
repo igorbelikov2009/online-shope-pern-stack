@@ -1,5 +1,13 @@
+const { Op } = require("sequelize");
 const uuid = require("uuid"); // импортируем из установок пакет uuid
-const { Device, DeviceInfo } = require("../models/models");
+const {
+  Device,
+  DeviceInfo,
+  Type,
+  Brand,
+  OrderDevice,
+  BasketDevice,
+} = require("../models/models");
 const ApiError = require("../error/ApiError");
 const path = require("path"); // импортируем пакет из модуля node.js
 
@@ -92,6 +100,75 @@ class DeviceController {
 
     return res.json(devices);
   }
+
+  // получить поиск всех устройств по имени
+  async getSearchAllDeviceByName(req, res, next) {
+    try {
+      let { limit, page, name, filter } = req.query;
+
+      page = page || 1;
+      limit = limit || 7;
+      let offset = page * limit - limit;
+      if (filter === "All") {
+        const devices = await Device.findAndCountAll({
+          attributes: ["name", "price", "img", "id"],
+          where: {
+            name: {
+              [Op.like]: `%${name}%`,
+            },
+          },
+          include: [
+            {
+              attributes: ["name"],
+              model: Brand,
+            },
+            {
+              attributes: ["name"],
+              model: Type,
+            },
+          ],
+          limit,
+          offset,
+        });
+
+        return res.json(devices);
+      } else {
+        const devices = await Device.findAndCountAll({
+          attributes: ["name", "price", "img", "id", "brandId", "typeId"],
+          where: {
+            name: {
+              [Op.like]: `%${name}%`,
+            },
+            [Op.or]: [
+              {
+                brandId: null,
+              },
+              {
+                typeId: null,
+              },
+            ],
+          },
+          include: [
+            {
+              attributes: ["name"],
+              model: Brand,
+            },
+            {
+              attributes: ["name"],
+              model: Type,
+            },
+          ],
+          limit,
+          offset,
+        });
+
+        return res.json(devices);
+      }
+    } catch (e) {
+      next(apiError.badRequest(e.message));
+    }
+  }
+
   // получаем одно устройство
   async getOne(req, res) {
     // В первую очередь получаем id устройства из параметров.
@@ -101,10 +178,120 @@ class DeviceController {
     const device = await Device.findOne({
       where: { id },
       // помимо самого устройства, нам необходимо получить массив характеристик
-      include: [{ model: DeviceInfo, as: "info" }],
+      // include: [{ model: DeviceInfo, as: "info" }], это у Тимура
+      include: [
+        { model: DeviceInfo, as: "info" },
+        { model: Type },
+        { model: Brand },
+      ], // это у Шкалупы
     });
     // возвращаем на клиент
     return res.json(device);
+  }
+
+  // удаляем устройства
+  async delete(req, res) {
+    try {
+      // В первую очередь получаем id устройства из параметров.
+      // Этот параметр мы указывали в deviceRouter.js
+      // как router.delete("/:id", checkRole("ADMIN"), deviceController.delete);
+      const { id } = req.params;
+
+      // ищем в базе данных по { id } одно устройство, которое необходимо удалить
+      await Device.findOne({ where: { id } }).then(async (data) => {
+        if (data) {
+          // если находим, то удаляем его
+          await Device.destroy({ where: { id } }).then(() => {
+            // и возвращаем клиенту сообщение
+            return res.json("Устройство удалено");
+          });
+        } else {
+          // если устройства с указанным ID нет в базе данных, то возвращаем клиенту сообщение
+          return res.json("Этого устройства нет в базе данных");
+        }
+
+        // удаляем устройство из OrderDevice
+        await OrderDevice.destroy({ where: { deviceId: id } });
+        // удаляем устройство из BasketDevice
+        await BasketDevice.destroy({ where: { deviceId: id } });
+      });
+    } catch (e) {
+      return res.json(e);
+    }
+  }
+
+  // редактирование (обновление) устройства
+  async update(req, res) {
+    try {
+      // В первую очередь получаем id устройства из параметров.
+      // Этот параметр мы указывали в deviceRouter.js
+      // как  router.put("/:id", checkRole("ADMIN"), deviceController.update);
+      const { id } = req.params;
+      //=========== ниже возможно вместо const надо писать let
+      const { brandId, typeId, name, price, info } = req.body; // получаем из тела запроса
+
+      // ищем в базе данных одно усройство по условию {id}
+      await Device.findOne({ where: { id } }).then(async (data) => {
+        // если находим
+        if (data) {
+          // создаём пустой объект, где в будущем будут храниться новые ключи и значения
+          let newVal = {};
+          // если есть ключ brandId, то записываем в него обновленое значение. Иначе false
+          brandId ? (newVal.brandId = brandId) : false;
+          // то же самое
+          typeId ? (newVal.typeId = typeId) : false;
+          name ? (newVal.name = name) : false;
+          price ? (newVal.price = price) : false;
+
+          // переписываем имя файла картинки
+          if (req.files) {
+            const { img } = req.files;
+            const type = img.mimetype.split("/")[1];
+            let fileName = uuid.v4() + `.${type}`;
+            img.mv(path.resolve(__dirname, "..", "static", fileName));
+            newVal.img = fileName;
+          }
+
+          if (info) {
+            const parseInfo = JSON.parse(info);
+            for (const item of parseInfo) {
+              await DeviceInfo.findOne({ where: { id: item.id } }).then(
+                async (data) => {
+                  if (data) {
+                    await DeviceInfo.update(
+                      {
+                        title: item.title,
+                        description: item.description,
+                      },
+                      { where: { id: item.id } }
+                    );
+                  } else {
+                    await DeviceInfo.create({
+                      title: item.title,
+                      description: item.description,
+                      deviceId: id,
+                    });
+                  }
+                }
+              );
+            }
+          }
+
+          await Device.update(
+            {
+              ...newVal,
+            },
+            { where: { id } }
+          ).then(() => {
+            return res.json("Устройство обновлено");
+          });
+        } else {
+          return res.json("Устройства с таким ID нет в базе данных");
+        }
+      });
+    } catch (e) {
+      return res.json(e);
+    }
   }
 }
 

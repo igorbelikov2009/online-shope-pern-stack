@@ -49,29 +49,56 @@ const TypeBrand = sequelize.define("type_brand", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
+const Orders = sequelize.define("orders", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  complete: { type: DataTypes.BOOLEAN, defaultValue: false },
+  mobile: { type: DataTypes.STRING(25), allowNull: false },
+  userId: { type: DataTypes.INTEGER, allowNull: true },
+});
+
+const OrderDevice = sequelize.define("order_device", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  deviceId: { type: DataTypes.INTEGER, allowNull: false },
+  orderId: { type: DataTypes.INTEGER, allowNull: false },
+  count: { type: DataTypes.INTEGER, allowNull: false },
+});
+
 User.hasOne(Basket);
 Basket.belongsTo(User);
 
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
+User.hasMany(Orders);
+Orders.belongsTo(User, {
+  foreignKey: { name: "userId" },
+  onDelete: "CASCADE",
+});
+
+Orders.hasMany(OrderDevice);
+OrderDevice.belongsTo(Orders, {
+  foreignKey: { name: "orderId" },
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+
 Basket.hasMany(BasketDevice);
 BasketDevice.belongsTo(Basket);
-
-Device.hasMany(DeviceInfo, { as: "info" }); // info - поле массива характеристик
-DeviceInfo.belongsTo(Device);
-
-Brand.hasMany(Device);
-Device.belongsTo(Brand);
 
 Type.hasMany(Device);
 Device.belongsTo(Type);
 
+Type.hasMany(Device);
+Device.belongsTo(Type);
+
+Brand.hasMany(Device);
+Device.belongsTo(Brand);
+
 Device.hasMany(Rating);
 Rating.belongsTo(Device);
 
-Device.hasMany(BasketDevice);
-BasketDevice.belongsTo(Device);
+Device.hasMany(DeviceInfo, { as: "info" });
+DeviceInfo.belongsTo(Device);
 
 Type.belongsToMany(Brand, { through: TypeBrand });
 Brand.belongsToMany(Type, { through: TypeBrand });
@@ -79,11 +106,13 @@ Brand.belongsToMany(Type, { through: TypeBrand });
 module.exports = {
   User,
   Basket,
-  Rating,
   BasketDevice,
   Device,
-  DeviceInfo,
-  Brand,
   Type,
+  Brand,
+  Rating,
   TypeBrand,
+  DeviceInfo,
+  Orders,
+  OrderDevice,
 };
