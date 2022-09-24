@@ -200,7 +200,7 @@ class DeviceController {
       // ищем в базе данных по { id } одно устройство, которое необходимо удалить
       await Device.findOne({ where: { id } }).then(async (data) => {
         if (data) {
-          // если находим, то удаляем его
+          // если находим, то удаляем его по условию { id }
           await Device.destroy({ where: { id } }).then(() => {
             // и возвращаем клиенту сообщение
             return res.json("Устройство удалено");
@@ -230,7 +230,7 @@ class DeviceController {
       //=========== ниже возможно вместо const надо писать let
       const { brandId, typeId, name, price, info } = req.body; // получаем из тела запроса
 
-      // ищем в базе данных одно усройство по условию {id}
+      // ищем в базе данных одно устройство по условию {id}
       await Device.findOne({ where: { id } }).then(async (data) => {
         // если находим
         if (data) {
