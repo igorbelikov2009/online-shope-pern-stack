@@ -217,12 +217,17 @@ class OrdersController {
           return res.json(order);
         })
         .catch(() => {
-          return res.json("Order doesn't exist in data base");
+          return res.json("Заказа нет в базе");
         });
     } catch (e) {
-      return res.json("Delete didn't complete because was error: " + e);
+      return res.json("Удаление не завершено из-за ошибки: " + e);
     }
   }
 }
 
 module.export = new OrdersController();
+
+// На выходе из этого файла у нас будет новый объект, созданный из этого класса.
+// Через точку будем обращаться к этим функциям, чтобы их вызывать, например ordersController().create
+// экспортируем в ordersRouter
+// http://localhost:5000/api/orders

@@ -36,6 +36,6 @@ class BrandController {
 
 module.exports = new BrandController();
 // На выходе из этого файла у нас будет новый объект, созданный из этого класса.
-// Через точку будем обращаться к этим функциям, чтобы их вызывать, например BrandController().check
-// экспортируем в userRouter
+// Через точку будем обращаться к этим функциям, чтобы их вызывать, например brandController().create
+// экспортируем в brandRouter
 // http://localhost:5000/api/brand
