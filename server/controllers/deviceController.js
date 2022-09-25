@@ -55,6 +55,7 @@ class DeviceController {
       next(ApiError.badRequest(e.message));
     }
   }
+
   // получаем все устройства
   async getAll(req, res) {
     // Здесь будем принимать { brandId, typeId }, и если они не указаны, будем возвращать все девайсы.
@@ -189,7 +190,7 @@ class DeviceController {
     return res.json(device);
   }
 
-  // удаляем устройства
+  // удаляем устройство
   async delete(req, res) {
     try {
       // В первую очередь получаем id устройства из параметров.
