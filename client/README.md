@@ -1,70 +1,35 @@
-# Getting Started with Create React App
+### устанавливаем:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. npx create-react-app online-shop-react
+2. npm i axios
+3. npm i react-router-dom@5.3.3 https://www.npmjs.com/package/react-router-dom/v/5.3.3
+4. npm i mobx https://www.npmjs.com/package/mobx
+5. npm i mobx-react-lite (state manager react) https://www.npmjs.com/package/mobx-react-lite
 
-## Available Scripts
+6. npm install react-bootstrap bootstrap@4.6.0 https://react-bootstrap-v4.netlify.app/getting-started/introduction 4.6 - версия
+7. (npm install react-bootstrap (bootstrap 5) https://react-bootstrap.github.io/getting-started/introduction/) 5 - версия
+8. копируем ссылку на странице react-bootstrap и вставляем в index.html в самый низ перед <title>Online-shop React</title>
+<link
+     rel="stylesheet"
+     href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+     integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+     crossorigin="anonymous"
+   />
 
-In the project directory, you can run:
+9. npm i jwt-decode https://www.npmjs.com/package/jwt-decode
+
+10. Установка PostgreSQL для Windows(база данных в компьютере) https://postgrespro.ru/windows
+11. pgadmin для PostgreSQL https://www.pgadmin.org/
+12. pgadmin для PostgreSQL https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.13/windows/
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Создаём структуру
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. npm i jwt-decode https://www.npmjs.com/package/jwt-decode
+   jwt-decode — это небольшая библиотека браузера, которая помогает декодировать токен JWT, закодированный Base64Url.
+   ВАЖНО: эта библиотека не проверяет токен, любой правильно сформированный JWT может быть декодирован. Вы должны проверить токен в логике на стороне сервера, используя что-то вроде express-jwt , koa-jwt , Owin Bearer JWT и т. д.
 
-### `npm test`
+Предупреждение. При обновлении с версии 2 до версии 3 возможны критические изменения.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Если вы ранее импортировали библиотеку как import \* as jwt_decode from 'jwt-decode', вам придется изменить импорт на import jwt_decode from 'jwt-decode';
