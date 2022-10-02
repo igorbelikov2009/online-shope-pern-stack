@@ -6,10 +6,14 @@ import { fetchOneDevice } from "../http/deviceApi";
 
 const DevicePage = () => {
   const [device, setDevice] = useState({ info: [] });
-  const { id } = useParams();
+  // const params = useParams();
+  // console.log(params, params.id);
+  const { id } = useParams(); // делаем деструктуризацию и этот id-шник вытаскиваем
+  // console.log(id);
+
   useEffect(() => {
     fetchOneDevice(id).then((data) => setDevice(data));
-  }, []);
+  }, [id]);
 
   return (
     <Container className="mt-3">

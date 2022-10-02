@@ -22,13 +22,15 @@ export default class DeviceStore {
     ];
     this._selectedType = {};
     this._selectedBrand = {};
+    this._page = 1; // поле, отвечающее за текущую страницу, по умолчанию это будет первая страница
+    this._totalCount = 0; // общее количество товара, которое доступно по данному запросу
+    this._limit = 3; // количество товаров на одной странице
     makeAutoObservable(this);
   }
 
   setTypes(types) {
     this._types = types;
   }
-
   setBrands(brands) {
     this._brands = brands;
   }
@@ -36,10 +38,21 @@ export default class DeviceStore {
     this._devices = devices;
   }
   setSelectedType(type) {
+    this.setPage(1);
     this._selectedType = type;
   }
   setSelectedBrand(brand) {
+    this.setPage(1);
     this._selectedBrand = brand;
+  }
+  setPage(page) {
+    this._page = page;
+  }
+  setTotalCount(totalCount) {
+    this._totalCount = totalCount;
+  }
+  setLimit(limit) {
+    this._limit = limit;
   }
 
   get types() {
@@ -56,5 +69,14 @@ export default class DeviceStore {
   }
   get selectedBrand() {
     return this._selectedBrand;
+  }
+  get page() {
+    return this._page;
+  }
+  get totalCount() {
+    return this._totalCount;
+  }
+  get limit() {
+    return this._limit;
   }
 }
