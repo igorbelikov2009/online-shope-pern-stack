@@ -6,8 +6,15 @@ const CreateType = ({ show, onHide }) => {
   const [value, setValue] = useState("");
 
   const addType = () => {
-    createType({ name: value }).then((data) => setValue(""));
-    onHide();
+    // при нажатии на кнопку, нам необходимо отправить запрос createType().
+    // В параметр запроса передаём объект создаваемого типа (брэнда и .....)
+    // у него указываем только имя, которое мы получаем из состояния
+    createType({ name: value }).then((data) => {
+      setValue("");
+      // в случае успешного запроса, setValue присваиваем пустую строку(""), то есть инпут будем обнулять
+      onHide();
+      // после чего вызываем функцию закрытия модального окна
+    });
   };
 
   return (

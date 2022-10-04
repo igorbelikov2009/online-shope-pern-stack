@@ -5,6 +5,7 @@ import { Context } from "..";
 
 const TypeBar = observer(() => {
   const { device } = useContext(Context);
+  // device: new DeviceStore() через Context в indexe из DeviceStore
   //   console.log(device);
 
   return (
@@ -12,7 +13,7 @@ const TypeBar = observer(() => {
       {device.types.map((type) => (
         <ListGroup.Item
           style={{ cursor: "pointer" }}
-          active={type.id === device.selectedType.id}
+          active={type.id === device.selectedType.id} // active даёт нам изменение цвета при клике через bootstrap
           key={type.id}
           onClick={() => device.setSelectedType(type)}
         >

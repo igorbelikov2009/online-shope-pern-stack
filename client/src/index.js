@@ -5,6 +5,9 @@ import DeviceStore from "./store/DeviceStore";
 import UserStore from "./store/UserStore";
 
 export const Context = createContext(null);
+// Создали контекст и через его props-value в Context.Provider передаём объект {},
+// где в поле user создадим новый объект класса UserStore(), который мы сделали в "./store/UserStore";
+// а в поле device создадим новый объект класса DeviceStore(), который мы сделали в "./store/DeviceStore";
 
 // console.log(process.env.REACT_APP_API_URL);
 

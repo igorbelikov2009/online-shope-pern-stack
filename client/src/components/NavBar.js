@@ -6,8 +6,21 @@ import { Context } from "..";
 import { SHOP_ROUTE, ADMIN_ROUTE, LOGIN_ROUTE } from "../utils/consts";
 
 const NavBar = observer(() => {
+  // Без observer() не будет отслеживания за изменениями в store.
+  // onClick={() => user.setIsAuth(true)} работать не будет
+
   const { user } = useContext(Context);
+  // console.log(user.isAuth);
+
   const history = useHistory();
+  /* 
+   useHistory поменялсь на useNavigate в react-router-dom v6
+Из за этого всё надо менять так:
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
+onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
+В новой версий не надо вызывать push a можнo сразу передать ссылку
+  */
 
   // выход из авторизации
   const logOut = () => {

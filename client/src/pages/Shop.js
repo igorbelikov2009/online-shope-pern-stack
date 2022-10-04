@@ -10,21 +10,34 @@ import { fetchBrands, fetchDevices, fetchTypes } from "../http/deviceApi";
 
 const Shop = observer(() => {
   const { device } = useContext(Context);
+  // console.log(device);
+
+  // Единожды, при открытии страницы Shop, нам необходимо подгружать устройства.
+  // В случае успешного запроса, вызываем device.setTypes из DeviceStore.js через observer()
+  // и передаём туда то, что нам вернулось в запросе.
+  // Так же вызываем device.setBrands и передаём туда то, что нам вернулось в запросе.
 
   useEffect(() => {
     fetchTypes().then((data) => device.setTypes(data));
     fetchBrands().then((data) => device.setBrands(data));
-    // после получения товара, нам надо посчитать, сколько товара мы получили, чтобы посчитать количество страниц
+    // После получения товара, нам надо посчитать, сколько товара мы получили, чтобы посчитать количество страниц
+    // Смотри deviceApi функцию fetchDevices = async (typeId, brandId, page, limit = 5)
     fetchDevices(null, null, 1, 4).then((data) => {
       device.setDevices(data.rows);
+      // data.rows из бэкенда
       device.setTotalCount(data.count); // общее количество товара находится в поле (count) в ответе от сервера
+      // смотри DeviceStore: setTotalCount(count) { this._totalCount = count }
     });
-    // setBrands(), setTypes() и fetchDevices() из контекста смотри index.js device: new DeviceStore()
+    // setBrands(), setTypes() и setDevices() из контекста смотри index.js device: new DeviceStore()
   }, [device]);
 
-  // Чтобы менять страницы, при нажатии на страницу в пагинации, в массив зависимостей передаём номер страницы [device.page].
-  // Теперь функция (первый параметр useEffect()), будет вызываться каждый раз, когда номер страницы были изменён
+  // Чтобы менять содержимое страницы магазина при нажатии на номер страницы в пагинации( на стр. Pages)
+  // создаём новый useEffect(),
+  // useEffect() вторым параметром принимает массив зависимостей. Передаём в него номер страницы [device.page].
+  // Теперь, при каждой смене номера страницы, будет вызываться внутренняя функция fetchDevices() (первый параметр),
+  // и будет меняться содержимое страницы магазина
   useEffect(() => {
+    // Смотри deviceApi на параметры функции fetchDevices = async (typeId, brandId, page, limit = 5)
     fetchDevices(
       device.selectedType.id,
       device.selectedBrand.id,

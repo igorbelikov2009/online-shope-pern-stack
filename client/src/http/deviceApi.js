@@ -1,34 +1,39 @@
 import { $host, $authHost } from ".";
-// import jwt_decode from "jwt-decode"; // c помощью jwt_decode мы сможем токен распарсить (декодировать)
 
+// Создание типов
 export const createType = async (type) => {
-  // чтобы создать тип, нужна авторизация, нужно быть админом $authHost
+  // Чтобы создать тип, нужна авторизация, нужно быть админом $authHost
   const { data } = await $authHost.post("api/type", type); // телом запроса будем передавать type
   return data;
 };
 
-// любой пользователь может список типов получать (можно через обычный хост)
+// Получение типов
+// Любой пользователь может получать список типов (можно через обычный хост)
 export const fetchTypes = async () => {
-  // вызываем fetchTypes() в Shop.js в useEffect()
+  // Вызываем fetchTypes() в Shop.js в useEffect()
   const { data } = await $host.get("api/type");
   return data;
 };
 
+// Создание брэндов
 export const createBrand = async (brand) => {
   const { data } = await $authHost.post("api/brand", brand);
   return data;
 };
 
+// Получение брэндов
 export const fetchBrands = async () => {
   const { data } = await $host.get("api/brand");
   return data;
 };
 
+// Создание устройств
 export const createDevice = async (device) => {
   const { data } = await $authHost.post("api/device", device);
   return data;
 };
 
+// Получение устройств
 export const fetchDevices = async (typeId, brandId, page, limit = 5) => {
   const { data } = await $host.get("api/device", {
     params: {
@@ -46,6 +51,7 @@ export const fetchDevices = async (typeId, brandId, page, limit = 5) => {
 //   return data;
 // };
 
+// Получение одного устройства
 export const fetchOneDevice = async (id) => {
   const { data } = await $host.get(`api/device/${id}`);
   return data;

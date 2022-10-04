@@ -7,6 +7,15 @@ import { DEVICE_ROUTE } from "../utils/consts";
 const DeviceItem = ({ device }) => {
   const history = useHistory();
   // console.log(history);
+  /* 
+   useHistory поменялсь на useNavigate в react-router-dom v6
+Из за этого всё надо менять так:
+import { useNavigate } from "react-router-dom";
+const navigate = useNavigate();
+onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
+В новой версий не надо вызывать push a можнo сразу передать ссылку
+  */
+
   return (
     <Col
       md={3}

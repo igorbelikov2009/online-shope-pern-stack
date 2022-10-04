@@ -1,7 +1,12 @@
+// Работа с Mobx
 import { makeAutoObservable } from "mobx";
 
 export default class DeviceStore {
+  // Конструктор будет вызываться при создании объекта данного класса.
+  // Например, в index.js, в Context.Provider, в  его props-value
+  // мы создаём объект device: new DeviceStore() .
   constructor() {
+    // Создаём состояния
     this._types = [
       // { id: 1, name: "Холодильники" },
       // { id: 2, name: "Смартфоны" },
@@ -28,6 +33,7 @@ export default class DeviceStore {
     makeAutoObservable(this);
   }
 
+  // Создаём экшены. Это функции, которые изменяют каким-то образом состояние.
   setTypes(types) {
     this._types = types;
   }
@@ -50,11 +56,14 @@ export default class DeviceStore {
   }
   setTotalCount(totalCount) {
     this._totalCount = totalCount;
+    // меняется в Shop стр.35
   }
   setLimit(limit) {
     this._limit = limit;
   }
 
+  // Создаём геттеры. Они нужны нам для получения переменных из нашего состояния.
+  // К ним будем обращаться, как к объектам
   get types() {
     return this._types;
   }
@@ -79,4 +88,6 @@ export default class DeviceStore {
   get limit() {
     return this._limit;
   }
+  // Это компьютед-функции, они вызываются только в том случае,
+  // если переменная, которая используется внутри, была измененна
 }

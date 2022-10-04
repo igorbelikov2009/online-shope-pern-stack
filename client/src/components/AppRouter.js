@@ -23,4 +23,13 @@ const AppRouter = observer(() => {
   );
 });
 
+// в <Switch>, если не отрабатывает ни одна из страниц,
+// то отрабатывает последняя: <Redirect to={SHOP_ROUTE} />
 export default AppRouter;
+
+/* В новых версиях React Router немного изменилась документация. 
+Switch (в файле по пути components/AppRoutes из урока) заменить на => 'Routes'. 
+Так же 'Components' (в строке Route) заменить на => 'element'. 
+Эта строка должна выглядеть так: "<Route key={path} path={path} element={<Component/>} exact/>"
+Так же для "Redirect". Его в новой версии не импортируем. Вместо него использовать просто: "<Route path="*" element=(<Shop/>)/>".
+*/
