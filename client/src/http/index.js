@@ -3,10 +3,12 @@ import axios from "axios";
 // обычный хост
 const $host = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
+  responseType: "json",
 });
 
 const $authHost = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
+  responseType: "json",
 });
 
 // делаем авторизацию хоста

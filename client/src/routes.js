@@ -1,8 +1,3 @@
-import Admin from "./pages/Admin";
-import Auth from "./pages/Auth";
-import Basket from "./pages/Basket";
-import DevicePage from "./pages/DevicePage";
-import Shop from "./pages/Shop";
 import {
   ADMIN_ROUTE,
   BASKET_ROUTE,
@@ -10,7 +5,20 @@ import {
   LOGIN_ROUTE,
   REGISTRATION_ROUTE,
   SHOP_ROUTE,
+  ORDERS_ROUTE,
+  DEVICE_EDIT_ROUTE,
+  ORDERING_ROUTE,
 } from "./utils/consts";
+
+import Admin from "./pages/Admin";
+import Orders from "./pages/Orders";
+import Shop from "./pages/Shop";
+import Auth from "./pages/Auth";
+import DevicePage from "./pages/DevicePage";
+import Basket from "./pages/Basket"; //  BasketCard
+import OneOrder from "./pages/OneOrder";
+import DevicePageEdit from "./pages/DevicePageEdit";
+import Ordering from "./pages/Ordering";
 
 export const authRoutes = [
   {
@@ -18,12 +26,24 @@ export const authRoutes = [
     Component: Admin,
   },
   {
-    path: BASKET_ROUTE,
-    Component: Basket,
+    path: ORDERS_ROUTE,
+    Component: Orders,
+  },
+  {
+    path: ORDERS_ROUTE + "/:id",
+    Component: OneOrder,
+  },
+  {
+    path: DEVICE_EDIT_ROUTE,
+    Component: DevicePageEdit,
   },
 ];
 
 export const publicRoutes = [
+  {
+    path: ORDERING_ROUTE,
+    Component: Ordering,
+  },
   {
     path: SHOP_ROUTE,
     Component: Shop,
@@ -39,5 +59,9 @@ export const publicRoutes = [
   {
     path: DEVICE_ROUTE + "/:id",
     Component: DevicePage,
+  },
+  {
+    path: BASKET_ROUTE,
+    Component: Basket,
   },
 ];

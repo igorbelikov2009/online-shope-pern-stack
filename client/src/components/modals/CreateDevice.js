@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import { Button, Dropdown, Form, Row, Col, Modal } from "react-bootstrap";
 import { Context } from "../../index";
 import { createDevice, fetchBrands, fetchTypes } from "../../http/deviceApi";
@@ -131,7 +130,8 @@ const CreateDevice = observer(({ show, onHide }) => {
           />
           <Form.Control className="mt-3" type="file" onChange={selectFile} />
           <hr />
-          <Button variant={"outline-dark"} onClick={addInfo}>
+          {/* onClick={() => addInfo()} одно и тоже  onClick={addInfo}  */}
+          <Button variant={"outline-dark"} onClick={() => addInfo()}>
             Добавить новое свойство
           </Button>
           {info.map((i) => (
