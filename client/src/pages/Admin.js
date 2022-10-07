@@ -203,7 +203,7 @@ const Admin = () => {
                   </Col>
 
                   <Col xs={2}>
-                    <NavLink to={DEVICE_EDIT_ROUTE + `/${id}`}>Edit</NavLink>
+                    <NavLink to={DEVICE_EDIT_ROUTE + `/${id}`}>Выйти</NavLink>
                   </Col>
                 </Row>
               </ListGroup.Item>

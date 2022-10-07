@@ -77,7 +77,7 @@ const CreateDevice = observer(({ show, onHide }) => {
   };
 
   return (
-    <Modal show={show} onHide={onHide} centered>
+    <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
           Добавить устройство
@@ -100,10 +100,12 @@ const CreateDevice = observer(({ show, onHide }) => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
+
           <Dropdown className="mt-2 mb-2">
             <Dropdown.Toggle>
-              {device.selectedBrand.name || "Выберите тип"}
+              {device.selectedBrand.name || "Выберите брэнд"}
             </Dropdown.Toggle>
+
             <Dropdown.Menu>
               {device.brands.map((brand) => (
                 <Dropdown.Item
@@ -115,6 +117,7 @@ const CreateDevice = observer(({ show, onHide }) => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
+
           <Form.Control
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -130,6 +133,7 @@ const CreateDevice = observer(({ show, onHide }) => {
           />
           <Form.Control className="mt-3" type="file" onChange={selectFile} />
           <hr />
+
           {/* onClick={() => addInfo()} одно и тоже  onClick={addInfo}  */}
           <Button variant={"outline-dark"} onClick={() => addInfo()}>
             Добавить новое свойство
@@ -148,6 +152,7 @@ const CreateDevice = observer(({ show, onHide }) => {
                   placeholder="Введите название свойства"
                 />
               </Col>
+
               <Col md={4}>
                 <Form.Control
                   value={i.description}
@@ -160,6 +165,7 @@ const CreateDevice = observer(({ show, onHide }) => {
                   placeholder="Введите описание свойства"
                 />
               </Col>
+
               <Col md={4}>
                 <Button
                   variant={"outline-danger"}
@@ -173,6 +179,7 @@ const CreateDevice = observer(({ show, onHide }) => {
           ))}
         </Form>
       </Modal.Body>
+
       <Modal.Footer>
         <Button variant="outline-danger" onClick={onHide}>
           Закрыть
