@@ -1,5 +1,6 @@
 // Работа с Mobx
 import { makeAutoObservable } from "mobx";
+import jwt_decode from "jwt-decode";
 
 export default class UserStore {
   // Конструктор будет вызываться при создании объекта данного класса.
@@ -12,8 +13,26 @@ export default class UserStore {
     //  При изменении этих переменных, компоненты будут перерендерываться
   }
 
-  // Создаём экшены. Это функции, которые изменяют каким-то образом состояние.
+  // Проверка срока действия токена
+  checkValidToken() {
+    // Пусть токен с истекшим сроком действия = false;
+    let isExpiredToken = false;
+    // достаём токен из локального хранилища по ключу ('token')
+    const token = localStorage.getItem("token");
+    // декодируем полученный токен
+    const decodedToken = jwt_decode(token);
+    // создём переменную со значением текущего времени
+    const dateNow = new Date();
 
+    // сравниваем предельный установленный срок действия токена с текущим
+    if (decodedToken.exp < dateNow.getTime()) {
+      isExpiredToken = true;
+    }
+
+    return isExpiredToken;
+  }
+
+  // Создаём экшены. Это функции, которые изменяют каким-то образом состояние.
   // Данная функция принимает булевое значение и присваивает его переменной _isAuth
   setIsAuth(bool) {
     this._isAuth = bool;

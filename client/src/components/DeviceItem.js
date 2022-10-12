@@ -6,6 +6,7 @@ import { DEVICE_ROUTE } from "../utils/consts";
 
 const DeviceItem = ({ device }) => {
   const history = useHistory();
+  // console.log(device.price);
   // console.log(history);
   /* 
    useHistory поменялсь на useNavigate в react-router-dom v6
@@ -29,7 +30,7 @@ onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
           src={process.env.REACT_APP_API_URL + device.img}
         />
         <div className="text-black-50 mt-1 d-flex justify-content-between align-items-center">
-          <div>Samsung...</div>
+          <div>{device.price} руб</div>
           <div className="d-flex align-items-center">
             <div>{device.rating}</div>
             <Image width={18} height={18} src={star} />

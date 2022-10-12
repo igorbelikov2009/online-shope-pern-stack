@@ -22,7 +22,7 @@ const Shop = observer(() => {
     fetchBrands().then((data) => device.setBrands(data));
     // После получения товара, нам надо посчитать, сколько товара мы получили, чтобы посчитать количество страниц
     // Смотри deviceApi функцию fetchDevices = async (typeId, brandId, page, limit = 5)
-    fetchDevices(null, null, 1, 4).then((data) => {
+    fetchDevices(null, null, 1, 9).then((data) => {
       device.setDevices(data.rows);
       // data.rows из бэкенда
       device.setTotalCount(data.count); // общее количество товара находится в поле (count) в ответе от сервера
@@ -37,25 +37,33 @@ const Shop = observer(() => {
   // Теперь, при каждой смене номера страницы, будет вызываться внутренняя функция fetchDevices() (первый параметр),
   // и будет меняться содержимое страницы магазина
   useEffect(() => {
-    // Смотри deviceApi на параметры функции fetchDevices = async (typeId, brandId, page, limit = 5)
-    fetchDevices(
-      device.selectedType.id,
-      device.selectedBrand.id,
-      device.page,
-      5
-    ).then((data) => {
-      device.setDevices(data.rows);
-      device.setTotalCount(data.count);
-    });
+    if (device.selectedType === "all") {
+      fetchDevices(null, device.selectedBrand.id, device.page, 9).then(
+        (data) => {
+          device.setDevices(data.rows);
+          device.setTotalCount(data.count);
+        }
+      );
+    } else {
+      // Смотри deviceApi на параметры функции fetchDevices = async (typeId, brandId, page, limit = 5)
+      fetchDevices(
+        device.selectedType.id,
+        device.selectedBrand.id,
+        device.page,
+        9
+      ).then((data) => {
+        device.setDevices(data.rows);
+        device.setTotalCount(data.count);
+      });
+    }
   }, [device.page, device.selectedType, device.selectedBrand]);
 
   return (
     <Container>
-      <Row className="mt-2">
+      <Row className="mt-3">
         <Col md={3}>
           <TypeBar />
         </Col>
-
         <Col md={9}>
           <BrandBar />
           <DeviceList />

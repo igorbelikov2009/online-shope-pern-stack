@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { deleteDeviceFromBasket } from "../http/deviceAPI";
+import { deleteDeviceFromBasket } from "../http/deviceApi";
 
 export default class BasketStore {
   constructor() {

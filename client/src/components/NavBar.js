@@ -1,16 +1,22 @@
-import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { NavLink, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
 import { Context } from "..";
-import { SHOP_ROUTE, ADMIN_ROUTE, LOGIN_ROUTE } from "../utils/consts";
+import { NavLink, useHistory } from "react-router-dom";
+import {
+  SHOP_ROUTE,
+  ADMIN_ROUTE,
+  LOGIN_ROUTE,
+  ORDERS_ROUTE,
+} from "../utils/consts";
+import BasketNavBar from "./BasketNavBar";
+import { observer } from "mobx-react-lite";
 
 const NavBar = observer(() => {
   // Без observer() не будет отслеживания за изменениями в store.
   // onClick={() => user.setIsAuth(true)} работать не будет
 
-  const { user } = useContext(Context);
-  // console.log(user.isAuth);
+  const { user, basket } = useContext(Context);
+  // console.log(user, user.isAuth, user.role);
 
   const history = useHistory();
   /* 
@@ -26,6 +32,8 @@ onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
   const logOut = () => {
     user.setUser({});
     user.setIsAuth(false);
+    localStorage.removeItem("token");
+    basket.resetBasket(); // смотри BasketStory.js
   };
 
   return (
@@ -37,12 +45,39 @@ onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
 
         {user.isAuth ? (
           <Nav className="ml-auto" style={{ color: "white" }}>
+            <BasketNavBar />
+
+            {/* {user.isAuth && user.User.role === "ADMIN" && (
+              <Button
+                className={"mr-3"}
+                variant={"outline-light"}
+                onClick={() => {
+                  history.push(ORDERS_ROUTE);
+                }}
+              >
+                Заказы
+              </Button>
+            )} */}
+
+            {user.isAuth && (
+              <Button
+                className={"mr-3"}
+                variant={"outline-light"}
+                onClick={() => {
+                  history.push(ORDERS_ROUTE);
+                }}
+              >
+                Заказы
+              </Button>
+            )}
+
             <Button
               variant={"outline-light"}
               onClick={() => history.push(ADMIN_ROUTE)}
             >
               Админ панель
             </Button>
+
             <Button
               variant={"outline-light"}
               onClick={() => logOut()}
@@ -53,6 +88,8 @@ onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
           </Nav>
         ) : (
           <Nav className="ml-auto" style={{ color: "white" }}>
+            <BasketNavBar />
+
             <Button
               variant={"outline-light"}
               onClick={() => history.push(LOGIN_ROUTE)}
