@@ -10,6 +10,7 @@ import {
 } from "../http/deviceApi";
 import { observer } from "mobx-react-lite";
 import { Context } from "..";
+import RatingStars from "../components/RatingStars";
 
 const DevicePage = observer(() => {
   const { user, basket } = useContext(Context);
@@ -70,12 +71,12 @@ const DevicePage = observer(() => {
             >
               {device?.rating || 0}
             </div>
-            {/* <RatingStars
-                          ratingChanged={ratingChanged}
-                          ratingVal={device?.rating || 0}
-                          isAuth={user.isAuth}
-                          isAccessRating={isAccessRating}
-                      /> */}
+            <RatingStars
+              ratingChanged={ratingChanged}
+              ratingVal={device?.rating || 0}
+              isAuth={user.isAuth}
+              isAccessRating={isAccessRating}
+            />
             {resRate}
           </Row>
         </Col>

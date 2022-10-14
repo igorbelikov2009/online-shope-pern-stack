@@ -21,6 +21,8 @@
 10. Установка PostgreSQL для Windows(база данных в компьютере) https://postgrespro.ru/windows
 11. pgadmin для PostgreSQL https://www.pgadmin.org/
 12. pgadmin для PostgreSQL https://www.postgresql.org/ftp/pgadmin/pgadmin4/v6.13/windows/
+13. Установка Material UI v-5 (npm install @mui/material @emotion/react @emotion/styled)
+    без emotion работать не будет
 
 ### `npm start`
 
