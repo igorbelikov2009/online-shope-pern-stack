@@ -6,7 +6,7 @@ import { DEVICE_ROUTE } from "../utils/consts";
 
 const DeviceItem = ({ device }) => {
   const history = useHistory();
-  // console.log(device.price);
+  // console.log(device.id);
   // console.log(history);
   /* 
    useHistory поменялсь на useNavigate в react-router-dom v6
@@ -21,7 +21,10 @@ onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
     <Col
       md={3}
       className={"mt-3"}
-      onClick={() => history.push(DEVICE_ROUTE + "/" + device.id)}
+      onClick={() => {
+        history.push(DEVICE_ROUTE + "/" + device.id);
+        // console.log(device.id);
+      }}
     >
       <Card style={{ width: 150, cursor: "pointer" }} border={"light"}>
         <Image

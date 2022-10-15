@@ -19,6 +19,9 @@ import { NavLink } from "react-router-dom";
 import { DEVICE_EDIT_ROUTE } from "../utils/consts";
 import DeleteBrandOrType from "../components/modals/DeleteBrandOrType";
 
+// ===============================================
+import DevicePageEdit from "./DevicePageEdit";
+
 const Admin = () => {
   const [brandVisible, setBrandVisible] = useState(false);
   const [typeVisible, setTypeVisible] = useState(false);
@@ -34,7 +37,7 @@ const Admin = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
-  //pagination
+  // pagination
   const limit = 5;
   const pageCount = Math.ceil(Number(count) / limit);
   const pages = [];
@@ -94,6 +97,7 @@ const Admin = () => {
       >
         Добавить тип
       </Button>
+
       <Button
         onClick={() => setBrandVisible(true)}
         variant="outline-dark"
@@ -129,6 +133,10 @@ const Admin = () => {
         onHide={() => setDeleteBrandOrType(false)}
         showSuccessMsgFunc={showSuccessMsgFunc}
       />
+
+      {/* ================================================================= */}
+      <DevicePageEdit />
+      {/* ================================================================= */}
 
       <Dropdown className="mt-5 mb-3" style={{ margin: "0 auto" }}>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -218,4 +226,5 @@ const Admin = () => {
   );
 };
 
+// DEVICE_EDIT_ROUTE
 export default Admin;

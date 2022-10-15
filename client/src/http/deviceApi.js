@@ -60,9 +60,9 @@ export const fetchDevices = async (typeId, brandId, page, limit = 9) => {
 
 // Получение одного устройства
 export const fetchOneDevice = async (id) => {
-  const { data } = await $host.get(`api/device/${id}`);
+  // const { data } = await $host.get(`api/device/${id}`);
   // одинаково с выражением ниже
-  // const { data } = await $host.get("api/device/" + id);
+  const { data } = await $host.get("api/device/" + id);
   return data;
 };
 

@@ -1,29 +1,3 @@
-// import React from "react";
-// import { Rating } from "@mui/material";
-
-// // isAccessRating - если есть доступ к рейтингу
-// const RatingStars = ({ ratingChanged, ratingVal, isAuth, isAccessRating }) => {
-//   // console.log("isAuth: " + isAuth, "isAccessRating: " + isAccessRating);
-
-//   return (
-//     <>
-//       <Rating
-//         name="simple-controlled"
-//         onChange={(event, newValue) => {
-//           ratingChanged(newValue);
-//         }}
-//         precision={1}
-//         size="large"
-//       />
-
-//       <Rating name="read-only" value={ratingVal} readOnly size="large" />
-//     </>
-//   );
-// };
-
-// export default RatingStars;
-// // https://mui.com/material-ui/react-rating/#rating-precision
-
 import React from "react";
 import { Rating } from "@mui/material";
 

@@ -34,7 +34,7 @@ export const authRoutes = [
     Component: OneOrder,
   },
   {
-    path: DEVICE_EDIT_ROUTE,
+    path: DEVICE_EDIT_ROUTE + "/:id",
     Component: DevicePageEdit,
   },
 ];
