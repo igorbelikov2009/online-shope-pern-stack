@@ -24,11 +24,13 @@ const CreateDevice = observer(({ show, onHide }) => {
     fetchBrands().then((data) => device.setBrands(data));
   }, [device]);
 
+  // info
   const addInfo = () => {
     setInfo([...info, { title: "", description: "", number: Date.now() }]);
   };
   const removeInfo = (number) => {
     setInfo(info.filter((i) => i.number !== number));
+    // console.log(info);
   };
 
   // =======================================
@@ -39,7 +41,7 @@ const CreateDevice = observer(({ show, onHide }) => {
   // Пробегаем по массиву информации
   // Проверяем, если номер совпадает с номером элемента итерации
   // то, тогда мы возвращаем объект, новый объект. Разворачиваем в него характеристику, и по ключу (title либо description) заменяем у неё поле value
-  // Если номер не совпадает, то мы возвращаем объект неизменнённым
+  // Если номер не совпадает, то мы возвращаем объект неизменённым
   const changeInfo = (key, value, number) => {
     setInfo(
       info.map((i) => (i.number === number ? { ...i, [key]: value } : i))
@@ -83,6 +85,7 @@ const CreateDevice = observer(({ show, onHide }) => {
           Добавить устройство
         </Modal.Title>
       </Modal.Header>
+
       <Modal.Body>
         <Form>
           <Dropdown className="mt-2 mb-2">
@@ -124,6 +127,7 @@ const CreateDevice = observer(({ show, onHide }) => {
             className="mt-3"
             placeholder="Введите название устройства"
           />
+
           <Form.Control
             value={price}
             onChange={(e) => setPrice(Number(e.target.value))}
@@ -134,27 +138,34 @@ const CreateDevice = observer(({ show, onHide }) => {
           <Form.Control className="mt-3" type="file" onChange={selectFile} />
           <hr />
 
+          <h4>Характеристики</h4>
           {/* onClick={() => addInfo()} одно и тоже  onClick={addInfo}  */}
-          <Button variant={"outline-dark"} onClick={() => addInfo()}>
+          <Button
+            className="mt-1"
+            variant={"outline-dark"}
+            onClick={() => addInfo()}
+          >
             Добавить новое свойство
           </Button>
+
           {info.map((i) => (
             <Row className="mt-4" key={i.number}>
               <Col md={4}>
                 <Form.Control
+                  placeholder="Введите название свойства"
                   value={i.title}
                   onChange={
                     (e) =>
-                      //   const changeInfo = (key, value, number) => ...
+                      //  const changeInfo = (key, value, number) => ...
                       changeInfo("title", e.target.value, i.number)
                     //  номер получаем из элемента текущей итерации
                   }
-                  placeholder="Введите название свойства"
                 />
               </Col>
 
               <Col md={4}>
                 <Form.Control
+                  placeholder="Введите описание свойства"
                   value={i.description}
                   onChange={
                     (e) =>
@@ -162,7 +173,6 @@ const CreateDevice = observer(({ show, onHide }) => {
                       changeInfo("description", e.target.value, i.number)
                     //  номер получаем из элемента текущей итерации
                   }
-                  placeholder="Введите описание свойства"
                 />
               </Col>
 

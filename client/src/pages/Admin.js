@@ -19,9 +19,6 @@ import { NavLink } from "react-router-dom";
 import { DEVICE_EDIT_ROUTE } from "../utils/consts";
 import DeleteBrandOrType from "../components/modals/DeleteBrandOrType";
 
-// ===============================================
-import DevicePageEdit from "./DevicePageEdit";
-
 const Admin = () => {
   const [brandVisible, setBrandVisible] = useState(false);
   const [typeVisible, setTypeVisible] = useState(false);
@@ -105,6 +102,7 @@ const Admin = () => {
       >
         Добавить брэнд
       </Button>
+
       <Button
         onClick={() => setDeviceVisible(true)}
         variant="outline-dark"
@@ -133,10 +131,6 @@ const Admin = () => {
         onHide={() => setDeleteBrandOrType(false)}
         showSuccessMsgFunc={showSuccessMsgFunc}
       />
-
-      {/* ================================================================= */}
-      <DevicePageEdit />
-      {/* ================================================================= */}
 
       <Dropdown className="mt-5 mb-3" style={{ margin: "0 auto" }}>
         <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -175,23 +169,27 @@ const Admin = () => {
         </Button>
       </InputGroup>
 
+      {/* список товара на странице админа */}
       <ListGroup>
         {searchedDevice &&
           searchedDevice.map(({ id, img, brand, type, price, name }) => {
             return (
               <ListGroup.Item className="mt-3" key={id}>
                 <Row>
-                  <Col xs={2}>
+                  <Col xs={5}>
                     <Image
                       width={150}
                       src={process.env.REACT_APP_API_URL + img}
                     />
                   </Col>
 
-                  <Col xs={8}>
+                  <Col xs={5}>
                     <Row>
                       <Col xs={12}>
-                        <NavLink to={DEVICE_EDIT_ROUTE + `/${id}`}>
+                        <NavLink
+                          to={DEVICE_EDIT_ROUTE + `/${id}`}
+                          // onClick={() => console.log(id)}
+                        >
                           Позиция: {id}
                         </NavLink>
                       </Col>

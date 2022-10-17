@@ -14,7 +14,6 @@ import { useHistory, useParams } from "react-router-dom";
 import { Context } from "..";
 import {
   fetchDeleteDevice,
-  fetchDevices,
   fetchOneDevice,
   updateDevices,
 } from "../http/deviceApi";
@@ -27,6 +26,7 @@ const DevicePageEdit = observer(() => {
   const { device } = useContext(Context);
   const history = useHistory();
   const { id } = useParams();
+  // console.log(id);
   const [deviceCurr, setDeviceCurr] = useState({});
   const [showMsg, setShowMsg] = useState(false);
   const [msg, setMsg] = useState("");
@@ -66,11 +66,13 @@ const DevicePageEdit = observer(() => {
 
   // info
   const addInfo = () => {
-    setInfo([...info, { title: "", description: "", number: Date.now() }]);
+    setInfo([...info, { title: "", description: "", id: Date.now() }]);
+    // console.log(info);
   };
 
-  const deleteInfo = (number) => {
-    setInfo(info.filter((item) => item.number !== number));
+  const removeInfo = (number) => {
+    setInfo(info.filter((i) => i.number !== number));
+    // console.log(info);
   };
 
   // =======================================
@@ -81,11 +83,10 @@ const DevicePageEdit = observer(() => {
   // Пробегаем по массиву информации
   // Проверяем, если номер совпадает с номером элемента итерации
   // то, тогда мы возвращаем объект, новый объект. Разворачиваем в него характеристику, и по ключу (title либо description) заменяем у неё поле value
-  // Если номер не совпадает, то мы возвращаем объект неизменнённым
+  // Если номер не совпадает, то мы возвращаем объект неизменённым
+  // =======================================
   const changeInfo = (key, value, number) => {
-    setInfo(
-      info.map((i) => (i.number === number ? { ...i, [key]: value } : i))
-    );
+    setInfo(info.map((i) => (i.id === number ? { ...i, [key]: value } : i)));
   };
 
   //  остаётся отправлять запрос на сервис
@@ -112,13 +113,17 @@ const DevicePageEdit = observer(() => {
     // Функция updateDevices() отправляет запрос на сервис.
     // Передаём id и formData как параметры функции, и, если запрос прошёл успешно,
     updateDevices(id, formData).then((data) => {
+      // console.log(data);
       // будем показывать сообщение
       setShowMsg(true);
       // с обновлённым девайсом
       setMsg(data);
-      // через 5000 ms закрываем сообщение
-      setTimeout(() => setShowMsg(false), 5000);
-      // было так setTimeout(() => setShowMsg(true), 5000);
+      // через 500 ms закрываем сообщение
+      setTimeout(() => setShowMsg(false), 500);
+      // ещё через 3000 ms переходим на страницу админа
+      setTimeout(() => {
+        history.push(ADMIN_ROUTE);
+      }, 3000);
     });
   };
 
@@ -157,246 +162,267 @@ const DevicePageEdit = observer(() => {
         setDisabledPutBtn(true);
       }
     }
-  }, [name, selectBrand, selectType, price, img, info]);
+  }, [name, selectBrand, selectType, price, img, info, deviceCurr]);
 
   useEffect(() => {
-    fetchDevices().then((data) => {
-      console.log(data);
-      // setDeviceCurr(data);
-      // setSelectBrand(data.brand);
-      // setSelectType(data.type);
-      // setName(data.name);
-      // setPrice(data.price);
-      // setInfo(data.info);
+    fetchOneDevice(id).then((data) => {
+      // console.log(data);
+      setDeviceCurr(data);
+      setSelectBrand(data.brand);
+      setSelectType(data.type);
+      setName(data.name);
+      setPrice(data.price);
+      setInfo(data.info);
+      console.log(data.info);
     });
   }, [id]);
-
-  console.log(showMsg, msg);
+  // console.log(showMsg, msg);
 
   return (
-    // <div>DevicePageEdit</div>
     <Container className="mt-3">
-      {/* <div>DevicePageEdit</div> */}
-      {showMsg && <Row>{msg}</Row>}
+      {showMsg && (
+        <Row className="d-flex justify-content-center ">
+          <h1 className="text-center"> {msg} </h1>
+        </Row>
+      )}
 
-      <Row>
-        <Col xs={12}>
-          <div>DevicePageEdit</div>
+      {!showMsg && (
+        <div>
           <Row>
-            <Col xs={1} className="d-flex align-items-center">
-              id:
-            </Col>
-            <Col xs={11}>{deviceCurr.id}</Col>
-          </Row>
+            <Col xs={12}>
+              <Row>
+                <Col xs={2} className="d-flex align-items-center">
+                  id:
+                </Col>
+                <Col xs={10}>{deviceCurr.id}</Col>
+              </Row>
 
-          <Row>
-            <Col xs={1} className="d-flex align-items-center">
-              Брэнд:
-            </Col>
-            <Col xs={11}>
-              <Dropdown className="mt-2 mb-2">
-                <Dropdown.Toggle>
-                  {selectBrand.name || "Выберите брэнд"}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {device.brands.map((brand) => {
-                    return brand.name === selectBrand.name ? (
-                      <Dropdown.Item key={brand.id} disabled>
-                        {brand.name}
-                      </Dropdown.Item>
-                    ) : (
-                      <Dropdown.Item
-                        key={brand.id}
-                        onClick={() => setSelectBrand(brand)}
-                      >
-                        {brand.name}
-                      </Dropdown.Item>
-                    );
-                  })}
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-          </Row>
+              <Row>
+                <Col xs={2} className="d-flex align-items-center">
+                  Брэнд:
+                </Col>
+                <Col xs={10}>
+                  <Dropdown className="mt-2 mb-2">
+                    <Dropdown.Toggle>
+                      {selectBrand.name || "Выберите брэнд"}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {device.brands.map((brand) => {
+                        return brand.name === selectBrand.name ? (
+                          <Dropdown.Item key={brand.id} disabled>
+                            {brand.name}
+                          </Dropdown.Item>
+                        ) : (
+                          <Dropdown.Item
+                            key={brand.id}
+                            onClick={() => setSelectBrand(brand)}
+                          >
+                            {brand.name}
+                          </Dropdown.Item>
+                        );
+                      })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Col>
+              </Row>
 
-          <Row>
-            <Col xs={1} className="d-flex align-items-center">
-              Типы:
-            </Col>
-            <Col xs={11}>
-              <Dropdown className="mt-2 mb-2">
-                <Dropdown.Toggle>
-                  {selectType.name || "Выберите тип"}
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {device.types.map((type) => {
-                    return type.name === selectType.name ? (
-                      <Dropdown.Item key={type.id} disabled>
-                        {type.name}
-                      </Dropdown.Item>
-                    ) : (
-                      <Dropdown.Item
-                        key={type.id}
-                        onClick={() => setSelectType(type)}
-                      >
-                        {type.name}
-                      </Dropdown.Item>
-                    );
-                  })}
-                </Dropdown.Menu>
-              </Dropdown>
-            </Col>
-          </Row>
+              <Row>
+                <Col xs={2} className="d-flex align-items-center">
+                  Типы:
+                </Col>
+                <Col xs={10}>
+                  <Dropdown className="mt-2 mb-2">
+                    <Dropdown.Toggle>
+                      {selectType.name || "Выберите тип"}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      {device.types.map((type) => {
+                        return type.name === selectType.name ? (
+                          <Dropdown.Item key={type.id} disabled>
+                            {type.name}
+                          </Dropdown.Item>
+                        ) : (
+                          <Dropdown.Item
+                            key={type.id}
+                            onClick={() => setSelectType(type)}
+                          >
+                            {type.name}
+                          </Dropdown.Item>
+                        );
+                      })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Col>
+              </Row>
 
-          <Row>
-            <Col xs={1} className="d-flex align-items-center">
-              Название:
-            </Col>
-            <Col xs={8}>
-              <Form.Control
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </Col>
-
-            <Col xs={3} className="d-flex align-items-center">
-              {name.length === 0 && (
-                <b style={{ color: "red" }}>
-                  Пожалуйста, введите название устройства
-                </b>
-              )}
-            </Col>
-          </Row>
-
-          <Row className="mt-2">
-            <Col xs={1} className="d-flex align-items-center">
-              Стоимость:
-            </Col>
-
-            <Col xs={8}>
-              <Form.Control
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-              />
-            </Col>
-
-            <Col xs={3} className="d-flex align-items-center">
-              {price === 0 && (
-                <b style={{ color: "red" }}>Please input price of device</b>
-              )}
-            </Col>
-          </Row>
-
-          <Row className="mt-4">
-            <Col
-              xs={6}
-              className="d-flex flex-column justify-content-center text-center"
-            >
-              Текущая картинка: <br />
-              <Image
-                style={{ margin: "0 auto", marginTop: 15 }}
-                width={150}
-                src={process.env.REACT_APP_API_URL + deviceCurr.img}
-              />
-            </Col>
-
-            {img && (
-              <Col
-                xs={6}
-                className="d-flex flex-column justify-content-center text-center"
-              >
-                Новая картинка: <br />
-                <Image
-                  style={{ margin: "0 auto", marginTop: 15 }}
-                  width={150}
-                  height={150}
-                  src={img}
-                />
-              </Col>
-            )}
-          </Row>
-
-          <Form.Control className="mt-3" type="file" onChange={imgHandler} />
-          <hr />
-
-          <Row className="d-flex flex-column m-3">
-            <h4>Характеристики</h4>
-            <Button variant="outline-dark" onClick={() => addInfo()}>
-              Добавить новое свойство
-            </Button>
-
-            {info.map((item, index) => (
-              <Row key={index} className="mt-3">
-                <Col md={4}>
+              <Row>
+                <Col xs={2} className="d-flex align-items-center">
+                  Название:
+                </Col>
+                <Col xs={7}>
                   <Form.Control
-                    placeholder="Введите название свойства устройства..."
-                    value={item.title}
-                    onChange={(e) =>
-                      changeInfo("title", e.target.value, item.number)
-                    }
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
-                  {!info[index].title && (
-                    <b style={{ color: "red" }}>Пожалуйста, введите название</b>
-                  )}
                 </Col>
 
-                <Col md={4}>
-                  <Form.Control
-                    placeholder="Введите описание свойства устройства..."
-                    value={item.description}
-                    onChange={(e) =>
-                      changeInfo("description", e.target.value, item.number)
-                    }
-                  />
-                  {!info[index].description && (
-                    <b style={{ color: "red" }}>Пожалуйста, введите описание</b>
+                <Col xs={3} className="d-flex align-items-center">
+                  {name.length === 0 && (
+                    <b style={{ color: "red" }}>Введите название устройства</b>
                   )}
                 </Col>
+              </Row>
 
-                <Col md={4}>
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => deleteInfo(item.number)}
+              <Row className="mt-2">
+                <Col xs={2} className="d-flex align-items-center">
+                  Стоимость:
+                </Col>
+
+                <Col xs={7}>
+                  <Form.Control
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(Number(e.target.value))}
+                  />
+                </Col>
+
+                <Col xs={3} className="d-flex align-items-center">
+                  {price === 0 && (
+                    <b style={{ color: "red" }}>Введите стоимость устройства</b>
+                  )}
+                </Col>
+              </Row>
+
+              <Row className="mt-4">
+                <Col
+                  xs={6}
+                  className="d-flex flex-column justify-content-center text-center"
+                >
+                  Текущая картинка: <br />
+                  <Image
+                    style={{ margin: "0 auto", marginTop: 15 }}
+                    width={150}
+                    src={process.env.REACT_APP_API_URL + deviceCurr.img}
+                  />
+                </Col>
+
+                {img && (
+                  <Col
+                    xs={6}
+                    className="d-flex flex-column justify-content-center text-center"
                   >
-                    Удалить новое свойство
+                    Новая картинка: <br />
+                    <Image
+                      style={{ margin: "0 auto", marginTop: 15 }}
+                      width={150}
+                      height={150}
+                      src={img}
+                    />
+                  </Col>
+                )}
+              </Row>
+
+              <Form.Control
+                className="mt-3"
+                type="file"
+                onChange={imgHandler}
+              />
+              <hr />
+
+              <Row className="d-flex flex-column m-3">
+                <h4>Характеристики</h4>
+
+                <Button
+                  className="mt-1"
+                  variant={"outline-dark"}
+                  onClick={() => addInfo()}
+                >
+                  Добавить новое свойство
+                </Button>
+
+                {info.map((i, index) => (
+                  <Row className="mt-4" key={index}>
+                    <Col md={4}>
+                      <Form.Control
+                        placeholder="Введите название свойства"
+                        value={i.title}
+                        onChange={(e) =>
+                          changeInfo("title", e.target.value, i.id)
+                        }
+                      />
+                      {!info[index].title && (
+                        <b style={{ color: "red" }}>
+                          Введите название свойства
+                        </b>
+                      )}
+                    </Col>
+
+                    <Col md={4}>
+                      <Form.Control
+                        placeholder="Введите описание свойства"
+                        value={i.description}
+                        onChange={(e) =>
+                          changeInfo("description", e.target.value, i.id)
+                        }
+                      />
+                      {!info[index].description && (
+                        <b style={{ color: "red" }}>
+                          Введите описание свойства
+                        </b>
+                      )}
+                    </Col>
+
+                    <Col md={4}>
+                      <Button
+                        variant={"outline-danger"}
+                        onClick={() => removeInfo(i.number)}
+                        // Запомни это. Без такой конфигурации этот onClick работать не будет
+                      >
+                        Удалить
+                      </Button>
+                    </Col>
+                  </Row>
+                ))}
+              </Row>
+
+              <Row className="mt-5">
+                <Col xs={12}>
+                  {isDisabledPutBtn ? (
+                    <Button disabled>Обновить устройство</Button>
+                  ) : (
+                    <Button onClick={putDevice}>Обновить устройство</Button>
+                  )}
+                  <Button
+                    className="ml-5"
+                    variant="danger"
+                    onClick={handleShow}
+                  >
+                    Удалить устройство
                   </Button>
                 </Col>
               </Row>
-            ))}
-          </Row>
-
-          <Row className="mt-5">
-            <Col xs={12}>
-              {isDisabledPutBtn ? (
-                <Button disabled>Update Device</Button>
-              ) : (
-                <Button onClick={putDevice}>Update Device</Button>
-              )}
-              <Button className="ml-5" variant="danger" onClick={handleShow}>
-                Delete Device
-              </Button>
             </Col>
           </Row>
-        </Col>
-      </Row>
 
-      <Modal show={show} onHide={handleClose} size="lg" centered>
-        <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Удалить это устройство {deviceCurr.id}?
-          </Modal.Title>
-        </Modal.Header>
+          <Modal show={show} onHide={handleClose} size="lg" centered>
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                Удалить это устройство {deviceCurr.id}?
+              </Modal.Title>
+            </Modal.Header>
 
-        <Modal.Footer>
-          <Button variant="outline-danger" onClick={handleClose}>
-            Закрыть
-          </Button>
-          <Button variant="outline-success" onClick={deleteDevice}>
-            Удалить
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            <Modal.Footer>
+              <Button variant="outline-danger" onClick={handleClose}>
+                Закрыть
+              </Button>
+              <Button variant="outline-success" onClick={deleteDevice}>
+                Удалить
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      )}
     </Container>
   );
 });

@@ -18,6 +18,7 @@ const DevicePage = observer(() => {
   const [resRate, setResRate] = useState("");
   const [isAccessRating, setSsAccessRating] = useState(false);
   const { id } = useParams();
+  // console.log(id);
 
   useEffect(() => {
     fetchOneDevice(id).then((data) => setDevice(data));
@@ -96,18 +97,18 @@ const DevicePage = observer(() => {
                 variant="outline-dark"
                 onClick={() => addDeviceInBasket(device)}
               >
-                Add to Cart
+                Добавить в корзину
               </Button>
             ) : (
               <Button variant="outline-dark" disabled>
-                Device already in basket
+                Устройство уже в корзине
               </Button>
             )}
           </Card>
         </Col>
       </Row>
       <Row className="d-flex flex-column m-3">
-        <h1>Characteristics</h1>
+        <h1>Характеристики</h1>
         {device.info.map((info, index) => (
           <Row
             key={info.id}
