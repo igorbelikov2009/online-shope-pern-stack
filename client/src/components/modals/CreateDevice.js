@@ -27,6 +27,7 @@ const CreateDevice = observer(({ show, onHide }) => {
   // info
   const addInfo = () => {
     setInfo([...info, { title: "", description: "", number: Date.now() }]);
+    console.log(info);
   };
   const removeInfo = (number) => {
     setInfo(info.filter((i) => i.number !== number));

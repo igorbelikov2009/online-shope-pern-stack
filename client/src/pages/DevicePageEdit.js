@@ -67,7 +67,7 @@ const DevicePageEdit = observer(() => {
   // info
   const addInfo = () => {
     setInfo([...info, { title: "", description: "", id: Date.now() }]);
-    // console.log(info);
+    console.log(info);
   };
 
   const removeInfo = (number) => {
@@ -87,6 +87,7 @@ const DevicePageEdit = observer(() => {
   // =======================================
   const changeInfo = (key, value, number) => {
     setInfo(info.map((i) => (i.id === number ? { ...i, [key]: value } : i)));
+    console.log(info);
   };
 
   //  остаётся отправлять запрос на сервис
