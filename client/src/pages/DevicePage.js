@@ -131,15 +131,3 @@ export default DevicePage;
  * @param {{rating}} rating of device
  * @param {{price}} price of device
  */
-
-// //============================================================================
-
-// // //==============
-// // const description = [
-// //   { id: 1, title: "Оперативная память", description: "5 гб" },
-// //   { id: 2, title: "Камера", description: "12 мп" },
-// //   { id: 3, title: "Процессор", description: "Пентиум 3" },
-// //   { id: 4, title: "Количество ядер", description: "2" },
-// //   { id: 5, title: "Аккумулятор", description: "4000" },
-// // ];
-// // //==============

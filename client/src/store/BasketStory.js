@@ -9,7 +9,6 @@ export default class BasketStore {
   }
 
   // Удалить элемент из корзины
-
   async setDeleteItemBasket(device, isAuth = false) {
     if (isAuth) {
       // Поучаем из запроса (device.id), затем удаляем этот элемент
@@ -47,7 +46,7 @@ export default class BasketStore {
       // Пусть итоговая цена равна нулю
       let totalPrice = 0;
       // Пробегаемся по каждому товару в корзине, умножаем его цену на его количество
-      // и складируем итоговоую сумму товаров в корзине
+      // и складируем итоговую сумму товаров в корзине
       this._basket.forEach(
         (device) => (totalPrice += Number(device.price * device.count))
       );

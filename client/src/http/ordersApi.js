@@ -18,6 +18,7 @@ export const sendOrder = async ({ auth, mobile, basket }) => {
     return data;
   }
 };
+
 // Получить заказы
 export const fetchOrders = async ({ limit, page, complete }) => {
   const { data } = await $authHost.get(
@@ -41,6 +42,7 @@ export const fetchDeleteOrder = async ({ id }) => {
   });
   return data;
 };
+
 // Получить один заказ-устройство
 export const getOneOrderDevices = async (id) => {
   const { data } = await $authHost.get("api/orders/" + id);

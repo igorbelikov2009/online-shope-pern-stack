@@ -24,7 +24,7 @@ const Shop = observer(() => {
     // Смотри deviceApi функцию fetchDevices = async (typeId, brandId, page, limit = 5)
     fetchDevices(null, null, 1, 9).then((data) => {
       device.setDevices(data.rows);
-      // data.rows из бэкенда
+      // data.rows из бэкенда // потому что страницы разбиты на пагинацию
       device.setTotalCount(data.count); // общее количество товара находится в поле (count) в ответе от сервера
       // смотри DeviceStore: setTotalCount(count) { this._totalCount = count }
     });

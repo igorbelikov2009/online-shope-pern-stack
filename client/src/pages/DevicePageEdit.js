@@ -26,7 +26,6 @@ const DevicePageEdit = observer(() => {
   const { device } = useContext(Context);
   const history = useHistory();
   const { id } = useParams();
-  // console.log(id);
   const [deviceCurr, setDeviceCurr] = useState({});
   const [showMsg, setShowMsg] = useState(false);
   const [msg, setMsg] = useState("");
@@ -48,8 +47,6 @@ const DevicePageEdit = observer(() => {
   };
 
   const [show, setShow] = useState(false);
-  // ===========================
-  // const [show, setShow] = useState(true);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -67,27 +64,28 @@ const DevicePageEdit = observer(() => {
   // info
   const addInfo = () => {
     setInfo([...info, { title: "", description: "", id: Date.now() }]);
-    console.log(info);
+    // // console.log(info);
   };
 
-  const removeInfo = (number) => {
-    setInfo(info.filter((i) => i.number !== number));
-    // console.log(info);
+  const removeInfo = (id) => {
+    setInfo(info.filter((i) => i.id !== id));
+    // // console.log(info);
   };
 
   // =======================================
   // changeInfo принимает параметрами:
   // 1. ключ - это либо title либо description
   // 2. value - значение, которое по этому ключу мы будем устанавливать
-  // 3. number - номер характеристики, у которой значение мы будем изменять
+  // 3. id - номер характеристики, у которой значение мы будем изменять
   // Пробегаем по массиву информации
   // Проверяем, если номер совпадает с номером элемента итерации
   // то, тогда мы возвращаем объект, новый объект. Разворачиваем в него характеристику, и по ключу (title либо description) заменяем у неё поле value
   // Если номер не совпадает, то мы возвращаем объект неизменённым
   // =======================================
-  const changeInfo = (key, value, number) => {
-    setInfo(info.map((i) => (i.id === number ? { ...i, [key]: value } : i)));
-    console.log(info);
+
+  const changeInfo = (key, value, id) => {
+    setInfo(info.map((i) => (i.id === id ? { ...i, [key]: value } : i)));
+    // console.log(info);
   };
 
   //  остаётся отправлять запрос на сервис
@@ -114,7 +112,7 @@ const DevicePageEdit = observer(() => {
     // Функция updateDevices() отправляет запрос на сервис.
     // Передаём id и formData как параметры функции, и, если запрос прошёл успешно,
     updateDevices(id, formData).then((data) => {
-      // console.log(data);
+      // // console.log(data);
       // будем показывать сообщение
       setShowMsg(true);
       // с обновлённым девайсом
@@ -167,17 +165,16 @@ const DevicePageEdit = observer(() => {
 
   useEffect(() => {
     fetchOneDevice(id).then((data) => {
-      // console.log(data);
+      // // console.log(data);
       setDeviceCurr(data);
       setSelectBrand(data.brand);
       setSelectType(data.type);
       setName(data.name);
       setPrice(data.price);
       setInfo(data.info);
-      console.log(data.info);
+      // console.log(data.info);
     });
   }, [id]);
-  // console.log(showMsg, msg);
 
   return (
     <Container className="mt-3">
@@ -377,7 +374,9 @@ const DevicePageEdit = observer(() => {
                     <Col md={4}>
                       <Button
                         variant={"outline-danger"}
-                        onClick={() => removeInfo(i.number)}
+                        onClick={() => {
+                          removeInfo(i.id);
+                        }}
                         // Запомни это. Без такой конфигурации этот onClick работать не будет
                       >
                         Удалить

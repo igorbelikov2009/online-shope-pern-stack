@@ -21,7 +21,7 @@ export default class UserStore {
     const token = localStorage.getItem("token");
     // декодируем полученный токен
     const decodedToken = jwt_decode(token);
-    // создём переменную со значением текущего времени
+    // создаём переменную со значением текущего времени
     const dateNow = new Date();
 
     // сравниваем предельный установленный срок действия токена с текущим
@@ -29,6 +29,7 @@ export default class UserStore {
       isExpiredToken = true;
     }
 
+    // возвращаем значение isExpiredToken
     return isExpiredToken;
   }
 
