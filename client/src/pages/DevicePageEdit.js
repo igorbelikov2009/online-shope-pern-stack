@@ -67,10 +67,10 @@ const DevicePageEdit = observer(() => {
     // // console.log(info);
   };
 
-  const removeInfo = (id) => {
-    setInfo(info.filter((i) => i.id !== id));
-    // // console.log(info);
-  };
+  // const removeInfo = (id) => {
+  //   setInfo(info.filter((i) => i.id !== id));
+  //   // // console.log(info);
+  // };
 
   // =======================================
   // changeInfo принимает параметрами:
@@ -372,7 +372,7 @@ const DevicePageEdit = observer(() => {
                     </Col>
 
                     <Col md={4}>
-                      <Button
+                      {/* <Button
                         variant={"outline-danger"}
                         onClick={() => {
                           removeInfo(i.id);
@@ -380,7 +380,7 @@ const DevicePageEdit = observer(() => {
                         // Запомни это. Без такой конфигурации этот onClick работать не будет
                       >
                         Удалить
-                      </Button>
+                      </Button> */}
                     </Col>
                   </Row>
                 ))}
