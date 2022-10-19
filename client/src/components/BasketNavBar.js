@@ -21,7 +21,7 @@ const BasketNavBar = observer(() => {
           className="ml-2"
           style={{ textDecoration: "none", color: "white" }}
         >
-          {basket.Price} RUB
+          {basket.Price} руб.
         </div>
       </NavLink>
     </div>

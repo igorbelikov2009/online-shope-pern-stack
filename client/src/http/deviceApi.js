@@ -1,6 +1,6 @@
 import { $host, $authHost } from ".";
 
-//========================== Создание типов
+// Типы ========================= Создание типов
 export const createType = async (type) => {
   // Чтобы создать тип, нужна авторизация, нужно быть админом $authHost
   const { data } = await $authHost.post("api/type", type); // телом запроса будем передавать type

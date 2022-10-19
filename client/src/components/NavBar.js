@@ -47,7 +47,9 @@ onClick={() => navigate(DEVICE_ROUTE + "/" + device.id)}
           <Nav className="ml-auto" style={{ color: "white" }}>
             <BasketNavBar />
 
-            {/* {user.isAuth && user.User.role === "ADMIN" && (
+            {/* TypeError: Cannot read properties of undefined (reading 'role')
+            
+            {user.isAuth && user.User.role === "ADMIN" && (
               <Button
                 className={"mr-3"}
                 variant={"outline-light"}

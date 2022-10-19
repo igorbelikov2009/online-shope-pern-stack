@@ -65,14 +65,10 @@ const Orders = () => {
     setRerender(!rerender);
   };
 
+  console.log(loading);
   // if (loading) {
   //   return <Spinner animation="grow" />;
   // }
-
-  console.log(loading);
-  if (1 < 0) {
-    return <Spinner animation="grow" />;
-  }
 
   for (let number = 1; number < pageCount + 1; number++) {
     pages.push(
@@ -100,10 +96,10 @@ const Orders = () => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {filter === "All" ? (
+              {filter === "all" ? (
                 <Dropdown.Item disabled>All</Dropdown.Item>
               ) : (
-                <Dropdown.Item onClick={() => setFilter("All")}>
+                <Dropdown.Item onClick={() => setFilter("all")}>
                   All
                 </Dropdown.Item>
               )}

@@ -21,7 +21,7 @@ const CreateType = ({ show, onHide }) => {
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Добавить тип
+          Добавить новый тип
         </Modal.Title>
       </Modal.Header>
 

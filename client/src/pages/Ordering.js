@@ -31,7 +31,7 @@ const Ordering = () => {
     <>
       <Form>
         <Form.Control
-          placeholder="Input your phone..."
+          placeholder="Введите свой телефон..."
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
@@ -39,7 +39,7 @@ const Ordering = () => {
       <Row className="mt-3">
         <Col xs={12}>
           <Button variant="secondary" onClick={buy}>
-            Buy
+            Купить
           </Button>
         </Col>
       </Row>

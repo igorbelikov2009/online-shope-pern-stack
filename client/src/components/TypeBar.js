@@ -8,12 +8,25 @@ const TypeBar = observer(() => {
   // device: new DeviceStore() через Context в indexe из DeviceStore
   //   console.log(device);
 
+  const getAllDevices = () => {
+    device.setSelectedType("all");
+    device.setSelectedBrand("all");
+  };
+
   return (
     <ListGroup>
+      <ListGroup.Item
+        style={{ cursor: "pointer" }}
+        active={"all" === device.selectedType}
+        onClick={getAllDevices}
+      >
+        All
+      </ListGroup.Item>
       {device.types.map((type) => (
         <ListGroup.Item
           style={{ cursor: "pointer" }}
-          active={type.id === device.selectedType.id} // active даёт нам изменение цвета при клике через bootstrap
+          active={type.id === device.selectedType.id}
+          // active даёт нам изменение цвета при клике через bootstrap
           key={type.id}
           onClick={() => device.setSelectedType(type)}
         >

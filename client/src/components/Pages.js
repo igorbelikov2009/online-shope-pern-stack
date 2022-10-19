@@ -18,13 +18,13 @@ const Pages = observer(() => {
 
   return (
     <Pagination className="mt-3">
-      {pages.map((nomerPage) => (
+      {pages.map((pageNumber) => (
         <Pagination.Item
-          key={nomerPage}
-          active={device.page === nomerPage}
-          onClick={() => device.setPage(nomerPage)} // При нажатии на номер страницы будем делать её активной
+          key={pageNumber}
+          active={device.page === pageNumber}
+          onClick={() => device.setPage(pageNumber)} // При нажатии на номер страницы будем делать её активной
         >
-          {nomerPage}
+          {pageNumber}
         </Pagination.Item>
       ))}
     </Pagination>
