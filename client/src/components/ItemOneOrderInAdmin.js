@@ -39,20 +39,23 @@ const ItemOneOrderInAdmin = ({
   //Format date (createdAt)
   const formatDate = (propsDate) => {
     const date = new Date(Date.parse(propsDate));
-    const options = {
-      weekday: "short",
-      hour: "numeric",
-      minute: "numeric",
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-      timezone: "UTC",
-    };
-    return date.toLocaleString("en-US", options);
+    // const options = {
+    //   weekday: "short",
+    //   hour: "numeric",
+    //   minute: "numeric",
+    //   year: "numeric",
+    //   month: "numeric",
+    //   day: "numeric",
+    //   timezone: "UTC",
+    // };
+    // return date.toLocaleString("en-US", options);
+    console.log(date);
+    return date.toLocaleString("en-US");
   };
 
   return (
     <>
+      {formatDate}
       <ListGroup.Item className="mt-3" key={id}>
         <Row>
           <Col md={8}>

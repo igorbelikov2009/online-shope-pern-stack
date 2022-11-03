@@ -56,6 +56,7 @@ const Shop = observer(() => {
         device.setTotalCount(data.count);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [device.page, device.selectedType, device.selectedBrand]);
 
   return (
@@ -64,6 +65,7 @@ const Shop = observer(() => {
         <Col md={3}>
           <TypeBar />
         </Col>
+
         <Col md={9}>
           <BrandBar />
           <DeviceList />

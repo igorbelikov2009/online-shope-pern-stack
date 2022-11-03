@@ -27,7 +27,7 @@ const Auth = observer(() => {
       user.setUser(user);
       user.setIsAuth(true);
       /* если регистрация и логин прошли успешно, 
-       то делаем редирект на стриничку магазина */
+       то делаем редирект на страничку магазина */
       history.push(SHOP_ROUTE);
     } catch (e) {
       alert(e.response.data.message);

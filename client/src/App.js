@@ -8,7 +8,7 @@ import { Spinner } from "react-bootstrap";
 import { Context } from ".";
 import { check } from "./http/userApi";
 import { getDeviceFromBasket } from "./http/deviceApi";
-import { get } from "mobx";
+import { get } from "mobx"; // ?????????????????????
 
 const App = observer(() => {
   // Поскольку нам здесь нужно следить за изменениями состояний { user, basket },
@@ -16,8 +16,9 @@ const App = observer(() => {
   const { user, basket } = useContext(Context);
   const [loading, setLoading] = useState(true); // идёт загрузка страницы или нет?
 
-  // check(). Проверяем авторизацию один раз при первом открытии приложения. Если массив зависимостей
-  // пустой, то функция отработает лишь единожды, при первом запуске приложения.
+  // check(). Проверяем авторизацию один раз при первом открытии приложения.
+  // Если массив зависимостей пустой, то функция отработает лишь единожды,
+  // при первом запуске приложения.
   useEffect(() => {
     // Если check() выполнилась успешно, то....
     check()

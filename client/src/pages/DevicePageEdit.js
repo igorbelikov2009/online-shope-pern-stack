@@ -47,6 +47,7 @@ const DevicePageEdit = observer(() => {
   };
 
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -100,7 +101,7 @@ const DevicePageEdit = observer(() => {
     formData.append("price", `${price}`);
     // как "img" передаём file, который потом выбираем из компьютера
     formData.append("img", imgFile);
-    // "brandId" и "typeId" получаем из DeviceStore из выбранного элемента,
+
     // не забываем нам нужен только id, а не целиком объект
     formData.append("brandId", selectBrand.id);
     formData.append("typeId", selectType.id);

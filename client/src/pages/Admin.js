@@ -38,6 +38,7 @@ const Admin = () => {
   const limit = 5;
   const pageCount = Math.ceil(Number(count) / limit);
   const pages = [];
+
   for (let number = 1; number < pageCount + 1; number++) {
     pages.push(
       <Pagination.Item

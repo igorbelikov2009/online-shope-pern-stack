@@ -5,7 +5,8 @@ import { Context } from "../index";
 
 const OneItemInBasket = ({ device }) => {
   const { basket, user } = useContext(Context);
-  console.log(basket, user);
+  // console.log(basket, user);
+  console.log("OneItemInBasket ");
 
   return (
     <Card key={device.id} style={{ width: "100%" }} className="mb-3">

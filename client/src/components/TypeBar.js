@@ -22,6 +22,7 @@ const TypeBar = observer(() => {
       >
         All
       </ListGroup.Item>
+
       {device.types.map((type) => (
         <ListGroup.Item
           style={{ cursor: "pointer" }}

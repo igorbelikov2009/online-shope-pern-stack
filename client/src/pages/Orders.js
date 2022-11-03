@@ -8,7 +8,7 @@ import {
   ListGroup,
   Pagination,
   Row,
-  Spinner,
+  // Spinner,
 } from "react-bootstrap";
 
 const Orders = () => {
@@ -16,7 +16,7 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [filter, setFilter] = useState("All");
+  const [filter, setFilter] = useState("Все заказы");
   const [rerender, setRerender] = useState(false);
 
   //pagination
@@ -59,6 +59,7 @@ const Orders = () => {
       setCount(data.count);
       setCurrentPage(1);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rerender]);
 
   const reRender = () => {
@@ -89,34 +90,34 @@ const Orders = () => {
           xs={12}
           className="mt-3 d-flex justify-content-center align-items-center"
         >
-          <div className="mr-3">Filter:</div>
+          <div className="mr-3">Выбрать :</div>
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               {filter}
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              {filter === "all" ? (
-                <Dropdown.Item disabled>All</Dropdown.Item>
+              {filter === "Все заказы" ? (
+                <Dropdown.Item disabled>Все заказы</Dropdown.Item>
               ) : (
-                <Dropdown.Item onClick={() => setFilter("all")}>
-                  All
+                <Dropdown.Item onClick={() => setFilter("Все заказы")}>
+                  Все заказы
                 </Dropdown.Item>
               )}
 
-              {filter === "completed" ? (
-                <Dropdown.Item disabled>Completed</Dropdown.Item>
+              {filter === "Завершённые" ? (
+                <Dropdown.Item disabled>Завершённые</Dropdown.Item>
               ) : (
-                <Dropdown.Item onClick={() => setFilter("completed")}>
-                  Completed
+                <Dropdown.Item onClick={() => setFilter("Завершённые")}>
+                  Завершённые
                 </Dropdown.Item>
               )}
 
-              {filter === "not-completed" ? (
-                <Dropdown.Item disabled>Not Completed</Dropdown.Item>
+              {filter === "Не завершённые" ? (
+                <Dropdown.Item disabled>Не завершённые</Dropdown.Item>
               ) : (
-                <Dropdown.Item onClick={() => setFilter("not-completed")}>
-                  Not Completed
+                <Dropdown.Item onClick={() => setFilter("Не завершённые")}>
+                  Не завершённые
                 </Dropdown.Item>
               )}
             </Dropdown.Menu>
